@@ -5,7 +5,7 @@
         <svg-icon :icon-class="item.svg" class-name="card-panel-icon"/>
         <span class="header-name">{{ item.name }}</span>
       </template>
-      <el-col class="card-panel-col" v-for="list of item.urlList" :key="list.url">
+      <el-col v-for="list of item.urlList" :key="list.name" class="card-panel-col">
         <div class="card-panel" @click="goToWebsite(list.url)">
           <div class="card-panel-icon-wrapper icon-people">
             <svg-icon :icon-class="list.svg" class-name="card-panel-icon"/>

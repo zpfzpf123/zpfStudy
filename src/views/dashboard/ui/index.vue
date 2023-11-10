@@ -18,7 +18,7 @@ export default {
             {
               name: 'ElementUI',
               svg: 'elementui',
-              url: 'https://element.eleme.cn/#/zh-CN'
+              url: 'https://element.eleme.cn/#/zh-CN/component/installation'
             },
             {
               name: 'iView',
