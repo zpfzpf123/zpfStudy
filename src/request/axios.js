@@ -4,12 +4,12 @@ import { Message } from 'element-ui'
 const baseApi = 'http://localhost:3000/'
 
 // 超时设定
-axios.defaults.timeout = 20000
+axios.defaults.timeout = 1000
 
 axios.interceptors.request.use(config => {
   return config
 }, err => {
-  Message.error('请求超时')
+  // Message.error('请求超时')
   return Promise.reject(err)
 })
 
@@ -18,7 +18,7 @@ axios.interceptors.response.use(response => {
   return response.data
 }, (err) => {
   // 返回状态码不为200时候的错误处理
-  Message.error(err.toString())
+  // Message.error(err.toString())
   return Promise.reject(err)
 })
 
@@ -30,6 +30,13 @@ export const getRequest = (url, params) => {
   })
 }
 
+export const delRequest = (url, params) => {
+  return axios({
+    method: 'delete',
+    url: `${baseApi}${url}`,
+    params: params
+  })
+}
 export const postRequest = (url, params) => {
   return axios({
     method: 'post',

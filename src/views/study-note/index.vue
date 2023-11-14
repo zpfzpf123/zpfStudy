@@ -38,20 +38,23 @@
           :data="noteList"
           :column="column"
           height="400px"
+          :default-sort="{prop: 'recommendationIndex', order: 'descending'}"
         >
           <el-table-column
-            type="selection"
-            width="100"
-          />
+            type="index"
+            label="序号"
+            align="center"
+            width="50"
+          >
+          </el-table-column>
           <el-table-column
             v-for="item in column"
             :key="item.label"
-            fixed
             :prop="item.prop"
             :label="item.label"
             align="center"
           />
-          <el-table-column width="200px" label="推荐指数">
+          <el-table-column width="200px" label="推荐指数" sortable prop="recommendationIndex">
             <template slot-scope="scope">
               <el-rate
                 v-model="scope.row.recommendationIndex"
@@ -63,30 +66,22 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="170">
+          <el-table-column label="操作" align="center" width="300">
             <template slot-scope="scope">
               <el-button
                 type="primary"
                 @click="viewInfo(scope.$index, scope.row)"
               >预览
               </el-button>
-              <!--              <el-button-->
-              <!--                type="primary"-->
-              <!--                @click="handleEdit(scope.$index, scope.row)"-->
-              <!--              >修改-->
-              <!--              </el-button>-->
-              <!--              <el-popconfirm-->
-              <!--                title="确定删除这一项吗？"-->
-              <!--                style="margin-left: 10px"-->
-              <!--                @onConfirm="handleDelete(scope.$index, scope.row)"-->
-              <!--              >-->
-              <!--                <el-button-->
-              <!--                  slot="reference"-->
-              <!--                  type="danger"-->
-              <!--                >删除-->
-              <!--                </el-button>-->
-              <!--              </el-popconfirm>-->
-
+              <el-popconfirm style="margin-left: 20px" title="确定要删除选择项吗？"
+                             @onConfirm="delInfo(scope.$index, scope.row)"
+              >
+                <el-button
+                  slot="reference"
+                  type="danger"
+                >删除文章
+                </el-button>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -138,9 +133,9 @@
           <v-md-editor
             v-if="showDetail"
             v-model="articleDetails"
-            :defaultShowToc="true"
             left-toolbar="fullscreen toc"
             right-toolbar=""
+            :include-level="[1,2,3,4]"
             height="70vh"
             @copy-code-success="handleCopyCodeSuccess"
           />
@@ -162,6 +157,7 @@ export default {
   data() {
     return {
       noteList: [],
+      initList: [],
       showAddNote: false,
       showDetail: false,
       showToc: false,
@@ -182,6 +178,14 @@ export default {
         {
           label: 'uniapp',
           value: 'uniapp'
+        },
+        {
+          label: 'ai',
+          value: 'ai'
+        },
+        {
+          label: 'component',
+          value: 'component'
         }
       ],
       // 组名信息
@@ -224,9 +228,11 @@ export default {
         console.log(list)
         this.noteList = []
         this.noteList.push(...list)
-      }).catch(_=>{
+      }).catch(_ => {
         this.noteList = []
         this.noteList.push(...db.note)
+        this.initList = []
+        this.initList.push(...db.note)
       })
     },
     addNote() {
@@ -243,12 +249,14 @@ export default {
       const condition = Object.fromEntries(
         Object.entries(this.inquire).filter(([key, value]) => value != null && value !== '')
       )
-      console.log(condition)
       Note.getNote(condition).then(list => {
         this.noteList = []
         this.noteList.push(...list)
-      }).catch(_=>{
-
+      }).catch(_ => {
+        console.log(this.inquire)
+        this.noteList = this.initList.filter(item => {
+          return item.name.includes(this.inquire.name_like) && item.type.includes(this.inquire.type)
+        })
       })
     },
     reset() {
@@ -275,7 +283,7 @@ export default {
           return false
         }
         console.log(this.note)
-        const id = this.noteList.length+1
+        const id = this.noteList.length + 1
         Note.postNote(
           {
             ...this.note,
@@ -295,9 +303,15 @@ export default {
       this.showDetail = true
       this.$nextTick(() => {
         this.articleDetails = val.content
-        setTimeout(()=>{
-          this.showToc=true
-        },1000)
+        setTimeout(() => {
+          this.showToc = true
+        }, 1000)
+      })
+    },
+    delInfo(index, val) {
+      console.log(index, val)
+      Note.delNote(val.id).then(res => {
+        this.$message.success('删除成功！')
       })
     },
     handleCopyCodeSuccess() {
@@ -344,8 +358,9 @@ export default {
 }
 
 .detail {
-  overflow:auto;
-  ::v-deep .github-markdown-body{
+  overflow: auto;
+
+  ::v-deep .github-markdown-body {
     overflow-y: auto;
   }
 
@@ -363,6 +378,7 @@ export default {
     display: none;
   }
 }
+
 .top {
   ::v-deep .el-card__body {
     padding: 0 !important;
