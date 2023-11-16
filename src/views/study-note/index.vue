@@ -7,18 +7,19 @@
           label-width="80px"
           :model="inquire"
           inline
+          @submit.native.prevent
         >
           <el-form-item label="文章标题" prop="name">
-            <el-input v-model="inquire.name_like"/>
+            <el-input v-model="inquire.name_like" @keyup.enter.native="queryTheArticle"/>
           </el-form-item>
           <el-form-item label="文章类型" prop="type">
             <el-select v-model="inquire.type" placeholder="请选择文章类型">
               <el-option v-for="item of noteTypeList" :key="item.label" :label="item.label" :value="item.value"/>
             </el-select>
           </el-form-item>
-          <el-form-item style="margin-left: 20px">
-            <button class="pan-btn green-btn" @click="queryTheArticle">查询</button>
-          </el-form-item>
+<!--          <el-form-item style="margin-left: 20px">-->
+<!--            <button class="pan-btn green-btn" @click="queryTheArticle">查询</button>-->
+<!--          </el-form-item>-->
           <el-form-item style="margin-left: 20px">
             <button class="pan-btn green-btn" @click="reset">重置</button>
           </el-form-item>
@@ -26,10 +27,6 @@
             <button class="pan-btn tiffany-btn" @click="addNote">新增文章</button>
           </el-form-item>
         </el-form>
-
-        <!--        <el-popconfirm title="确定要删除选择项吗？" @onConfirm="delSelect">-->
-        <!--          <el-button slot="reference" type="danger" @click="del">批量删除</el-button>-->
-        <!--        </el-popconfirm>-->
       </div>
     </el-card>
     <el-card style="margin-top: 20px;width: 100%;">
@@ -45,8 +42,7 @@
             label="序号"
             align="center"
             width="50"
-          >
-          </el-table-column>
+          />
           <el-table-column
             v-for="item in column"
             :key="item.label"
@@ -73,8 +69,16 @@
                 @click="viewInfo(scope.$index, scope.row)"
               >预览
               </el-button>
-              <el-popconfirm style="margin-left: 20px" title="确定要删除选择项吗？"
-                             @onConfirm="delInfo(scope.$index, scope.row)"
+              <el-button
+                style="margin-left: 20px"
+                type="warning"
+                @click="editInfo(scope.$index, scope.row)"
+              >修改
+              </el-button>
+              <el-popconfirm
+                style="margin-left: 20px"
+                title="确定要删除选择项吗？"
+                @onConfirm="delInfo(scope.$index, scope.row)"
               >
                 <el-button
                   slot="reference"
@@ -89,7 +93,7 @@
     </el-card>
     <el-dialog-com
       :visible="showAddNote"
-      title="新增文章"
+      :title="status===0?'新增文章':'修改文章'"
       fullscreen
       @closeDialog="closeAddNote"
     >
@@ -114,7 +118,13 @@
             />
           </el-form-item>
           <el-form-item label="文章内容" prop="content">
-            <v-md-editor v-model="note.content" :include-level="[1,2,3,4]" height="400px"/>
+            <v-md-editor
+              v-model="note.content"
+              :disabled-menus="[]"
+              :include-level="[1,2,3,4]"
+              height="400px"
+              @upload-image="handleUploadImage"
+            />
           </el-form-item>
         </el-form>
       </template>
@@ -148,6 +158,8 @@
 import Note from '@/api/note'
 import elDialogCom from '@/components/Dialog/el-dialog-com.vue'
 import db from '../../../static/db'
+import github from '@/request/github'
+import { Loading } from 'element-ui'
 
 export default {
   name: 'StudyNote',
@@ -156,6 +168,7 @@ export default {
   },
   data() {
     return {
+      status: 0, // 0新增，1修改
       noteList: [],
       initList: [],
       showAddNote: false,
@@ -192,7 +205,7 @@ export default {
       note: {
         name: '',
         type: '',
-        recommendationIndex: '',
+        recommendationIndex: 0,
         content: ''
       },
       inquire: {
@@ -219,10 +232,48 @@ export default {
       ]
     }
   },
+  watch: {
+    'inquire.type': {
+      handler(val) {
+        this.queryTheArticle()
+      },
+      immediate: true
+    }
+  },
   mounted() {
     this.init()
   },
   methods: {
+    async handleUploadImage(event, insertImage, files) {
+      const reader = new FileReader()
+
+      function getBase64(file) {
+        return new Promise((resolve) => {
+          reader.onload = function(event) {
+            const fileContent = event.target.result
+            resolve(fileContent.split(',')[1])
+          }
+          reader.readAsDataURL(file)
+        })
+      }
+
+      const content = await getBase64(files[0])// 目前上传接口支持上传base64格式图片，所以先将不是base6格式的文件流转化成base64,如果是base64格式忽略这一步
+      const loadingInstance = Loading.service({ fullscreen: true, text: '图片上传中...' })
+      const imgUrl = await github.uploader(content, files[0])
+      if (imgUrl) {
+        this.$message.success('上传github成功！！回显由于网络延迟，显示不出来或显示较缓慢属于正常现象')
+        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+          loadingInstance.close()
+        })
+      }
+      // 此处只做示例
+      insertImage({
+        url: `https://github.com/zpfzpf123/images/blob/master/${files[0].name}?raw=true`,
+        desc: 'files.name'
+        // width: 'auto',
+        // height: 'auto',
+      })
+    },
     init() {
       Note.getNote().then(list => {
         console.log(list)
@@ -236,14 +287,18 @@ export default {
       })
     },
     addNote() {
+      this.status = 0
       this.showAddNote = true
       this.note = Object.assign({}, {
         name: '',
         type: '',
-        recommendationIndex: '',
-        content: ''
+        recommendationIndex: 0,
+        content: '',
+        id: ''
       })
-      this.$refs.note.resetFields()
+      this.$nextTick(() => {
+        this.$refs.note.resetFields()
+      })
     },
     queryTheArticle() {
       const condition = Object.fromEntries(
@@ -283,17 +338,25 @@ export default {
           return false
         }
         console.log(this.note)
-        const id = this.noteList.length + 1
-        Note.postNote(
-          {
-            ...this.note,
-            id
-          }
-        ).then(_ => {
-          this.$message.success('添加文章成功！')
-          this.init()
-          this.showAddNote = false
-        })
+        if (this.status === 0) {
+          const id = this.noteList.length + 1
+          Note.postNote(
+            {
+              ...this.note,
+              id
+            }
+          ).then(_ => {
+            this.$message.success('添加文章成功！')
+            this.init()
+            this.showAddNote = false
+          })
+        } else if (this.status === 1) {
+          Note.putNote(this.note.id, this.note).then(res => {
+            this.$message.success('修改文章成功！')
+            this.init()
+            this.showAddNote = false
+          })
+        }
       })
     },
     closeDetail() {
@@ -307,6 +370,19 @@ export default {
           this.showToc = true
         }, 1000)
       })
+    },
+    editInfo(index, val) {
+      this.status = 1
+      this.showAddNote = true
+      this.note = Object.assign({}, {
+        name: val.name,
+        type: val.type,
+        recommendationIndex: val.recommendationIndex,
+        content: val.content,
+        id: val.id
+      })
+      console.log(this.note)
+      this.$refs.note.resetFields()
     },
     delInfo(index, val) {
       console.log(index, val)

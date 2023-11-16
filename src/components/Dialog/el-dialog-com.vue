@@ -71,5 +71,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+::v-deep .el-dialog__header{
+  height: 5vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

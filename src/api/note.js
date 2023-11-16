@@ -1,4 +1,4 @@
-import { getRequest, postRequest,delRequest } from '@/request/axios'
+import { getRequest, postRequest, delRequest, putRequest } from '@/request/axios'
 
 export default {
   getNote: (params) => {
@@ -9,5 +9,8 @@ export default {
   },
   delNote: (params) => {
     return delRequest(`note/${params}`)
+  },
+  putNote: (url1, params) => {
+    return putRequest(`note`, url1, params)
   }
 }

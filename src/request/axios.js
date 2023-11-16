@@ -45,10 +45,10 @@ export const postRequest = (url, params) => {
   })
 }
 
-export const putRequest = (url, params) => {
+export const putRequest = (url, url1, params) => {
   return axios({
     method: 'put',
-    url: `${baseApi}${url}`,
+    url: `${baseApi}${url}/${url1}`,
     data: params
   })
 }
