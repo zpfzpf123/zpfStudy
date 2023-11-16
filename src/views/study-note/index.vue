@@ -33,7 +33,7 @@
         <el-table
           :data="noteList"
           :column="column"
-          height="400px"
+          height="440px"
           :default-sort="{prop: 'recommendationIndex', order: 'descending'}"
         >
           <el-table-column
