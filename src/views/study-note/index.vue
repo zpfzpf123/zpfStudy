@@ -7,19 +7,18 @@
           label-width="80px"
           :model="inquire"
           inline
-          @submit.native.prevent
         >
           <el-form-item label="文章标题" prop="name">
-            <el-input v-model="inquire.name_like" @keyup.enter.native="queryTheArticle"/>
+            <el-input v-model="inquire.name_like"/>
           </el-form-item>
           <el-form-item label="文章类型" prop="type">
             <el-select v-model="inquire.type" placeholder="请选择文章类型">
               <el-option v-for="item of noteTypeList" :key="item.label" :label="item.label" :value="item.value"/>
             </el-select>
           </el-form-item>
-<!--          <el-form-item style="margin-left: 20px">-->
-<!--            <button class="pan-btn green-btn" @click="queryTheArticle">查询</button>-->
-<!--          </el-form-item>-->
+          <!--          <el-form-item style="margin-left: 20px">-->
+          <!--            <button class="pan-btn green-btn" @click="queryTheArticle">查询</button>-->
+          <!--          </el-form-item>-->
           <el-form-item style="margin-left: 20px">
             <button class="pan-btn green-btn" @click="reset">重置</button>
           </el-form-item>
@@ -232,8 +231,13 @@ export default {
       ]
     }
   },
+  computed: {
+    condition() {
+      return { name: this.inquire.name_like, type: this.inquire.type }
+    }
+  },
   watch: {
-    'inquire.type': {
+    'condition': {
       handler(val) {
         this.queryTheArticle()
       },

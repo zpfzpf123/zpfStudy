@@ -1,7 +1,7 @@
 import defaultSettings from '@/settings'
 import i18n from '@/lang'
 
-const title = defaultSettings.title || 'Vue Element Admin'
+const title = defaultSettings.title || '周鹏飞个人学习笔记网站'
 
 export default function getPageTitle(key) {
   const hasKey = i18n.te(`route.${key}`)
