@@ -244,9 +244,6 @@ export default {
       immediate: true
     }
   },
-  mounted() {
-    this.init()
-  },
   methods: {
     async handleUploadImage(event, insertImage, files) {
       const reader = new FileReader()
