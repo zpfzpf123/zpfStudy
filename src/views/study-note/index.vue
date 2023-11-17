@@ -9,11 +9,11 @@
           inline
         >
           <el-form-item label="文章标题" prop="name">
-            <el-input v-model="inquire.name_like"/>
+            <el-input v-model="inquire.name_like" />
           </el-form-item>
           <el-form-item label="文章类型" prop="type">
             <el-select v-model="inquire.type" placeholder="请选择文章类型">
-              <el-option v-for="item of noteTypeList" :key="item.label" :label="item.label" :value="item.value"/>
+              <el-option v-for="item of noteTypeList" :key="item.label" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
           <!--          <el-form-item style="margin-left: 20px">-->
@@ -22,7 +22,7 @@
           <el-form-item style="margin-left: 20px">
             <button class="pan-btn green-btn" @click="reset">重置</button>
           </el-form-item>
-          <el-form-item style="margin-left: 20px">
+          <el-form-item v-if="environment==='development'" style="margin-left: 20px">
             <button class="pan-btn tiffany-btn" @click="addNote">新增文章</button>
           </el-form-item>
         </el-form>
@@ -69,6 +69,7 @@
               >预览
               </el-button>
               <el-button
+                v-if="environment==='development'"
                 style="margin-left: 20px"
                 type="warning"
                 @click="editInfo(scope.$index, scope.row)"
@@ -80,6 +81,7 @@
                 @onConfirm="delInfo(scope.$index, scope.row)"
               >
                 <el-button
+                  v-if="environment==='development'"
                   slot="reference"
                   type="danger"
                 >删除文章
@@ -99,11 +101,11 @@
       <template v-slot:content>
         <el-form ref="note" :model="note" label-width="120px" :rules="rules">
           <el-form-item label="文章标题" prop="name">
-            <el-input v-model="note.name"/>
+            <el-input v-model="note.name" />
           </el-form-item>
           <el-form-item label="文章类型" prop="type">
             <el-select v-model="note.type" placeholder="请选择文章类型">
-              <el-option v-for="item of noteTypeList" :key="item.label" :label="item.label" :value="item.value"/>
+              <el-option v-for="item of noteTypeList" :key="item.label" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
           <el-form-item label="推荐指数" class="postInfo-container-item" prop="recommendationIndex">
@@ -234,6 +236,9 @@ export default {
   computed: {
     condition() {
       return { name: this.inquire.name_like, type: this.inquire.type }
+    },
+    environment() {
+      return process.env.NODE_ENV
     }
   },
   watch: {
