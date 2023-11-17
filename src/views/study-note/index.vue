@@ -240,9 +240,11 @@ export default {
     'condition': {
       handler(val) {
         this.queryTheArticle()
-      },
-      immediate: true
+      }
     }
+  },
+  mounted() {
+    this.init()
   },
   methods: {
     async handleUploadImage(event, insertImage, files) {
