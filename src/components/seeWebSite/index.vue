@@ -42,12 +42,11 @@ export default {
 
 <style lang="scss" scoped>
 .panel-group {
-  margin-top: 18px;
-
+  margin: 18px 0 20px 0 !important;
   .card-panel-col {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     width: max-content;
   }
 

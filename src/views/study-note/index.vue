@@ -446,7 +446,7 @@ export default {
 <style scoped lang="scss">
 #btn-table {
   //width: 100%;
-  height: 100%;
+  //height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
