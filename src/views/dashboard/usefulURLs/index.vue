@@ -17,6 +17,11 @@ export default {
           svg: 'ai',
           urlList: [
             {
+              name: 'chatgpt',
+              svg: 'chatgpt',
+              url: 'https://chat.openai.com/'
+            },
+            {
               name: 'bingChat',
               svg: 'bingChat',
               url: 'https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx'
@@ -25,7 +30,7 @@ export default {
               name: 'bard',
               svg: 'bard',
               url: 'https://bard.google.com/chat'
-            },
+            }
           ]
         },
         {
