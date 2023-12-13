@@ -20,7 +20,7 @@
           <!--            <button class="pan-btn green-btn" @click="queryTheArticle">查询</button>-->
           <!--          </el-form-item>-->
           <el-form-item style="margin-left: 20px">
-            <button class="pan-btn green-btn" @click="reset">重置</button>
+            <button class="pan-btn green-btn" @click.prevent="reset">重置</button>
           </el-form-item>
           <el-form-item
             v-if="environment === 'development'"
