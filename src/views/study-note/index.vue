@@ -193,7 +193,6 @@ export default {
       initList: [],
       showAddNote: false,
       showDetail: false,
-      showToc: false,
       articleDetails: '',
       noteTypeList: [
         {
@@ -411,9 +410,6 @@ export default {
       this.showDetail = true
       this.$nextTick(() => {
         this.articleDetails = val.content
-        setTimeout(() => {
-          this.showToc = true
-        }, 1000)
       })
     },
     editInfo(index, val) {
