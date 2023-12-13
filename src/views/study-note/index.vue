@@ -308,7 +308,6 @@ export default {
       if (this.environment === 'development') {
         Note.getNote()
           .then((list) => {
-            console.log(list)
             this.noteList = []
             this.noteList.push(...list)
           })
@@ -370,7 +369,6 @@ export default {
       this.showAddNote = false
     },
     submitForm() {
-      console.log(this.note)
       this.$refs.note.validate((valid) => {
         if (!valid) {
           return false
@@ -383,7 +381,6 @@ export default {
           this.$message.warning('请填写文章内容')
           return false
         }
-        console.log(this.note)
         if (this.status === 0) {
           const id = this.noteList.length + 1
           Note.postNote({
@@ -425,11 +422,9 @@ export default {
           id: val.id
         }
       )
-      console.log(this.note)
       this.$refs.note.resetFields()
     },
     delInfo(index, val) {
-      console.log(index, val)
       Note.delNote(val.id).then((res) => {
         this.$message.success('删除成功！')
       })
