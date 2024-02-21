@@ -1,17 +1,23 @@
 <template>
   <div id="Dialog">
-    <el-dialog :title="title" :fullscreen="fullscreen" :center="center" :visible="visible" :width="width"
-               :custom-class="customClass" @open="openDialog"
-               @close="closeDialog"
+    <el-dialog
+      :title="title"
+      :fullscreen="fullscreen"
+      :center="center"
+      :visible="visible"
+      :width="width"
+      :custom-class="customClass"
+      @open="openDialog"
+      @close="closeDialog"
     >
       <template v-slot:title>
-        <slot name="title"/>
+        <slot name="title" />
       </template>
       <template v-slot:default>
-        <slot name="content"/>
+        <slot name="content" />
       </template>
       <template v-slot:footer>
-        <slot name="footer"/>
+        <slot name="footer" />
       </template>
     </el-dialog>
   </div>
@@ -71,7 +77,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-::v-deep .el-dialog__header{
+::v-deep .el-dialog__header {
   height: 5vh;
   box-sizing: border-box;
   display: flex;

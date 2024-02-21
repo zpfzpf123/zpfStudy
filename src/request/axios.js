@@ -49,3 +49,10 @@ export const putRequest = (url, url1, params) => {
     data: params
   })
 }
+export const patchRequest = (url, params) => {
+  return axios({
+    method: 'patch',
+    url: `${baseApi}${url}`,
+    data: params
+  })
+}

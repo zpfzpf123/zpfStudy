@@ -1,5 +1,5 @@
 <template>
-  <see-web-site :web-site-list="webSiteList"></see-web-site>
+  <see-web-site :web="web"></see-web-site>
 </template>
 
 <script>
@@ -11,19 +11,7 @@ export default {
   },
   data() {
     return {
-      webSiteList: [
-        {
-          name: '图标网站',
-          svg: 'icon',
-          urlList: [
-            {
-              name: '阿里巴巴图标库',
-              svg: 'alibaba',
-              url: 'https://www.iconfont.cn/'
-            }
-          ]
-        }
-      ]
+      web: 'img'
     }
   }
 }

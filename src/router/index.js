@@ -53,7 +53,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'vue',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/dashboard/vue/vueSite.vue'),
         name: 'vue',
         meta: { title: 'vue', icon: 'vue', noCache: true }
       },

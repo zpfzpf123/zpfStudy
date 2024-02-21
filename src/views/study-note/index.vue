@@ -16,9 +16,6 @@
               />
             </el-select>
           </el-form-item>
-          <!--          <el-form-item style="margin-left: 20px">-->
-          <!--            <button class="pan-btn green-btn" @click="queryTheArticle">查询</button>-->
-          <!--          </el-form-item>-->
           <el-form-item style="margin-left: 20px">
             <button class="pan-btn green-btn" @click.prevent="reset">重置</button>
           </el-form-item>
@@ -412,17 +409,19 @@ export default {
     editInfo(index, val) {
       this.status = 1
       this.showAddNote = true
-      this.note = Object.assign(
-        {},
-        {
-          name: val.name,
-          type: val.type,
-          recommendationIndex: val.recommendationIndex,
-          content: val.content,
-          id: val.id
-        }
-      )
-      this.$refs.note.resetFields()
+      this.$nextTick(() => {
+        this.$refs.note.resetFields()
+        this.note = Object.assign(
+          {},
+          {
+            name: val.name,
+            type: val.type,
+            recommendationIndex: val.recommendationIndex,
+            content: val.content,
+            id: val.id
+          }
+        )
+      })
     },
     delInfo(index, val) {
       Note.delNote(val.id).then((res) => {

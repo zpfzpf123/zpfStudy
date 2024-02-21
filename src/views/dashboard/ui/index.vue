@@ -1,5 +1,5 @@
 <template>
-  <see-web-site :web-site-list="webSiteList"></see-web-site>
+  <see-web-site :web="web"></see-web-site>
 </template>
 
 <script>
@@ -10,34 +10,7 @@ export default {
   },
   data() {
     return {
-      webSiteList: [
-        {
-          name: 'UI框架',
-          svg: 'UI',
-          urlList: [
-            {
-              name: 'ElementUI',
-              svg: 'elementui',
-              url: 'https://element.eleme.cn/#/zh-CN/component/installation'
-            },
-            {
-              name: 'iView',
-              svg: 'iview',
-              url: 'http://v4.iviewui.com/docs/introduce'
-            },
-            {
-              name: 'Ant Design Vue',
-              svg: 'antd',
-              url: 'https://www.antdv.com/components/overview-cn'
-            },
-            {
-              name: 'DataV(大屏专用)',
-              svg: 'datav',
-              url: 'http://datav.jiaminghi.com/guide/'
-            }
-          ]
-        }
-      ]
+      web:'ui'
     }
   }
 }

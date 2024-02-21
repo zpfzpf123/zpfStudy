@@ -1,5 +1,5 @@
 <template>
-  <see-web-site :web-site-list="webSiteList"></see-web-site>
+  <see-web-site :web="web"></see-web-site>
 </template>
 
 <script>
@@ -11,24 +11,7 @@ export default {
   },
   data() {
     return {
-      webSiteList: [
-        {
-          name: 'js',
-          svg: 'js',
-          urlList: [
-            {
-              name: 'ES6',
-              svg: 'ES6',
-              url: 'https://es6.ruanyifeng.com/'
-            },
-            {
-              name: 'lodash',
-              svg: 'lodash',
-              url: 'https://www.lodashjs.com/'
-            }
-          ]
-        }
-      ]
+      web: 'js'
     }
   }
 }

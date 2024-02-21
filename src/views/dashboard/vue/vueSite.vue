@@ -11,7 +11,7 @@ export default {
   },
   data() {
     return {
-      web: 'other'
+      web: 'vue'
     }
   }
 }

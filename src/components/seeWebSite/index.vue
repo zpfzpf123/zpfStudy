@@ -1,6 +1,11 @@
 <template>
-  <el-row :gutter="40" class="panel-group">
-    <el-card v-for="item of webSiteList" :key="item.url">
+  <el-row :gutter="40" v-if="webSite.length" class="panel-group">
+    <!--    <el-card>-->
+    <!--      <button class="pan-btn tiffany-btn" @click="addWebSite">-->
+    <!--        新增网站-->
+    <!--      </button>-->
+    <!--    </el-card>-->
+    <el-card v-for="item of webSite" :key="item.url">
       <template v-slot:header>
         <svg-icon :icon-class="item.svg" class-name="card-panel-icon"/>
         <span class="header-name">{{ item.name }}</span>
@@ -18,23 +23,103 @@
         </div>
       </el-col>
     </el-card>
+    <el-dialog-com
+      :visible="dialogVisible"
+      title="新增网站"
+      @closeDialog="dialogVisible = $event"
+    >
+      <template v-slot:content>
+        <el-form ref="webSite" :model="webSite" label-width="80px" :rules="rules">
+          <el-form-item label="网站名称" prop="name">
+            <el-input v-model="webSite.name"/>
+          </el-form-item>
+          <el-form-item label="网站图标" prop="name">
+            <el-input v-model="webSite.svg"/>
+          </el-form-item>
+          <el-form-item label="网站地址" prop="name">
+            <el-input v-model="webSite.url"/>
+          </el-form-item>
+        </el-form>
+      </template>
+      <template v-slot:footer>
+        <el-button type="primary" @click="submitForm">提交</el-button>
+      </template>
+    </el-dialog-com>
   </el-row>
 </template>
 
 <script>
 
+import elDialogCom from '@/components/Dialog/el-dialog-com.vue'
+import WebSite from '@/api/webSite'
+import db from '../../../static/db'
 export default {
+  components: { elDialogCom },
   props: {
-    webSiteList: {
-      type: Array,
-      default() {
-        return []
+    web: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      dialogVisible: false, // 是否显示弹框
+      webSite: [], // 网站列表
+      rules: {
+        name: [
+          { required: true, message: '请输入网站名称', trigger: 'blur' }
+        ],
+        svg: [
+          { required: true, message: '请输入网站图标', trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: '请输入网站地址', trigger: 'blur' }
+        ]
       }
     }
   },
+  computed: {
+    environment() {
+      return process.env.NODE_ENV
+    }
+  },
+  mounted() {
+    this.init()
+  },
   methods: {
+    /**
+     * @description 初始化
+     * */
+    init() {
+      if (this.environment === 'development') {
+        WebSite.getWebSite(this.web).then(res => {
+          this.webSite = []
+          this.webSite.push(...res)
+        })
+      } else {
+        this.webSite = []
+        this.webSite.push(...db[this.web])
+      }
+    },
+    /**
+     * @description 跳转网站
+     * @param url 网站地址
+     * */
     goToWebsite(url) {
       window.open(url)
+    },
+    /**
+     * @description 新增网站
+     * */
+    addWebSite() {
+      this.dialogVisible = true
+    },
+    submitForm() {
+      this.$refs.webSite.validate(valid => {
+        if (valid) {
+
+        }
+      })
     }
   }
 }
@@ -43,6 +128,7 @@ export default {
 <style lang="scss" scoped>
 .panel-group {
   margin: 18px 0 20px 0 !important;
+
   .card-panel-col {
     display: flex;
     flex-wrap: wrap;

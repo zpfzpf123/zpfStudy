@@ -1,5 +1,5 @@
 <template>
-  <see-web-site :web-site-list="webSiteList"></see-web-site>
+  <see-web-site :web="web"></see-web-site>
 </template>
 
 <script>
@@ -11,19 +11,7 @@ export default {
   },
   data() {
     return {
-      webSiteList: [
-        {
-          name: 'http',
-          svg: 'http',
-          urlList: [
-            {
-              name: 'axios',
-              svg: 'axios',
-              url: 'https://www.axios-http.cn/docs/intro'
-            }
-          ]
-        }
-      ]
+      web: 'http'
     }
   }
 }
