@@ -27,5 +27,4 @@ const uploader = async(content, files) => {
   return `https://fastly.jsdelivr.net/gh/${repo}@main/${path}`
 }
 export default {
-  uploader
-}
+  uploader}
