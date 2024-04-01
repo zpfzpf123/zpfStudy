@@ -219,6 +219,9 @@ export default {
         {
           label: '公司',
           value: '公司'
+        }, {
+          label: 'git',
+          value: 'git'
         }
       ],
       // 组名信息
