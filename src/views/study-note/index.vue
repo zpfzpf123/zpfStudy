@@ -4,7 +4,7 @@
       <div class="btn">
         <el-form ref="inquire" label-width="80px" :model="inquire" inline>
           <el-form-item label="文章标题" prop="name">
-            <el-input v-model="inquire.name_like"/>
+            <el-input v-model="inquire.name_like" />
           </el-form-item>
           <el-form-item label="文章类型" prop="type">
             <el-select v-model="inquire.type" placeholder="请选择文章类型">
@@ -108,7 +108,7 @@
       <template v-slot:content>
         <el-form ref="note" :model="note" label-width="120px" :rules="rules">
           <el-form-item label="文章标题" prop="name">
-            <el-input v-model="note.name"/>
+            <el-input v-model="note.name" />
           </el-form-item>
           <el-form-item label="文章类型" prop="type">
             <el-select v-model="note.type" placeholder="请选择文章类型">
@@ -215,6 +215,10 @@ export default {
         {
           label: 'component',
           value: 'component'
+        },
+        {
+          label: '公司',
+          value: '公司'
         }
       ],
       // 组名信息

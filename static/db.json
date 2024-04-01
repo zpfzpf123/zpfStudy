@@ -223,6 +223,13 @@
       "recommendationIndex": 5,
       "content": "# 作用\n可在前端实现通过接口把图片上传到对应github仓库\n# 创建token\n1. 访问：https://github.com/settings/tokens ，点击 Generate new token 按钮，创建一个新 Token：\n2. 设置一下过期时间，这里我们选择“不会过期”，然后勾选一下 repo 所有权限：\n3. 接着滚到底下点击生成按钮，会看到 Token 生成完毕：\n# 创建github.js\n```js\nimport axios from 'axios'\nimport { Message } from 'element-ui'\naxios.defaults.timeout = 10000\naxios.interceptors.response.use(response => {\n  return response\n}, (err) => {\n  // 返回状态码不为200时候的错误处理\n  Message.error(err.toString())\n  return Promise.reject(err)\n})\nconst repo = 'zpfzpf123/images' // 填你的仓库 repo\nconst cutToken = 'ghp_lUbD67XeagTCo' // 填你的 Token\nconst tailToken = 'kcXfLOOXA01XYysbz0hGN73'\nconst uploader = async(content, files) => {\n  const path = `${files.name}`\n  // const path = `${content.name}`\n  const imageUrl = 'https://api.github.com/repos/' + repo + '/contents/' + path\n  const body = { message: 'upload', content }\n  const headers = {\n    Authorization: `token ${cutToken}${tailToken}`,\n    // 'Content-Type': 'application/json; charset=utf-8',\n    Accept: 'application/vnd.github.v3+json'\n  }\n  const res = await axios.put(imageUrl, body, { headers })\n  // 直接取得返回的图片地址\n  return res?.content?.download_url\n}\nexport default {\n  uploader\n}\n```\n# 使用示例\n```js\nasync handleUploadImage(event, insertImage, files) {\n      const reader = new FileReader()\n\n      function getBase64(file) {\n        return new Promise((resolve) => {\n          reader.onload = function(event) {\n            const fileContent = event.target.result\n            resolve(fileContent.split(',')[1])\n          }\n          reader.readAsDataURL(file)\n        })\n      }\n\n      const content = await getBase64(files[0])// 目前上传接口支持上传base64格式图片，所以先将不是base6格式的文件流转化成base64,如果是base64格式忽略这一步\n      const loadingInstance = Loading.service({ fullscreen: true, text: '图片上传中...' })\n      const imgUrl = await github.uploader(content, files[0])\n      if (imgUrl) {\n        this.$message.success('上传github成功！！回显由于网络延迟，显示不出来或显示较缓慢属于正常现象')\n        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭\n          loadingInstance.close()\n        })\n      }\n      // 此处只做示例\n      insertImage({\n        url: `https://github.com/zpfzpf123/images/blob/master/${files[0].name}?raw=true`,\n        desc: 'files.name'\n        // width: 'auto',\n        // height: 'auto',\n      })\n    },\n```",
       "id": 32
+    },
+    {
+      "name": "检测棚摄像机配置",
+      "type": "公司",
+      "recommendationIndex": 5,
+      "content": "# 1 打开配置工具（批量配置工具）\n# 2 显示未激活页面\n![files.name](https://github.com/zpfzpf123/images/blob/master/image.png?raw=true){{{width=\"auto\" height=\"auto\"}}}\n\n",
+      "id": 33
     }
   ],
   "vue": [
@@ -250,7 +257,7 @@
         {
           "name": "vue3",
           "svg": "vue3",
-          "url": "https://cn.vuejs.org/guide/introduction.html"
+          "url": "https://pinia.vuejs.org/zh/introduction.html"
         },
         {
           "name": "router3",
