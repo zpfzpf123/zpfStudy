@@ -304,6 +304,11 @@
           "name": "DataV",
           "svg": "datav",
           "url": "http://datav.jiaminghi.com/guide/"
+        },
+        {
+          "name": "fast-dataview-ui(vue3)",
+          "svg": "fast-dataview-ui",
+          "url": "https://aafx11.github.io/fast-dataview-ui/components/scrollTable.html"
         }
       ]
     }
