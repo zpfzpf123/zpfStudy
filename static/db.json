@@ -264,7 +264,7 @@
         {
           "name": "vue3",
           "svg": "vue3",
-          "url": "https://pinia.vuejs.org/zh/introduction.html"
+          "url": "https://cn.vuejs.org/guide/introduction.html"
         },
         {
           "name": "router3",
@@ -272,9 +272,9 @@
           "url": "https://v3.router.vuejs.org/zh/installation.html"
         },
         {
-          "name": "vuex3",
+          "name": "pinia",
           "svg": "vuex3",
-          "url": "https://v3.vuex.vuejs.org/zh/"
+          "url": "https://pinia.vuejs.org/zh/introduction.html"
         }
       ]
     }
@@ -321,7 +321,7 @@
         },
         {
           "name": "dayjs",
-          "svg": "dayjs",
+          "svg": "times",
           "url": "https://dayjs.gitee.io/docs/zh-CN/installation/installation"
         }
       ]
@@ -465,6 +465,11 @@
           "name": "奶牛快传",
           "svg": "nnkc",
           "url": "https://cowtransfer.com/"
+        },
+        {
+          "name": "ip查询",
+          "svg": "ip",
+          "url": "https://tool.lu/ip/"
         },
         {
           "name": "百度翻译",
