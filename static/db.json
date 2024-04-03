@@ -466,6 +466,11 @@
           "name": "通义千问",
           "svg": "通义千问",
           "url": "https://tongyi.aliyun.com/qianwen/"
+        },
+        {
+          "name": "kimi",
+          "svg": "kimi",
+          "url": "https://kimi.moonshot.cn/chat/co6eskqlnl9054hogulg"
         }
       ]
     },
