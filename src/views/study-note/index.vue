@@ -169,6 +169,24 @@
         </div>
       </template>
     </el-dialog-com>
+    <el-dialog
+      title="输入图片名称"
+      :visible.sync="dialogVisible"
+      width="30%"
+      @close="decideOnAName"
+      @open="focusInput"
+    >
+      <el-input
+        ref="nameInput"
+        v-model="imageName"
+        placeholder="请输入图片名称"
+        @keyup.enter.native="decideOnAName"
+      />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="decideOnAName">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -185,6 +203,10 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
+      loadingInstance: null,
+      timer: null,
+      imageName: '',
       status: 0, // 0新增，1修改
       noteList: [],
       initList: [],
@@ -272,6 +294,11 @@ export default {
     this.init()
   },
   methods: {
+    focusInput() {
+      this.$nextTick(() => {
+        this.$refs.nameInput.focus()
+      })
+    },
     async handleUploadImage(event, insertImage, files) {
       const reader = new FileReader()
 
@@ -286,27 +313,42 @@ export default {
       }
 
       const content = await getBase64(files[0]) // 目前上传接口支持上传base64格式图片，所以先将不是base6格式的文件流转化成base64,如果是base64格式忽略这一步
-      const loadingInstance = Loading.service({
-        fullscreen: true,
-        text: '图片上传中...'
-      })
-      const imgUrl = await github.uploader(content, files[0])
-      if (imgUrl) {
-        this.$message.success(
-          '上传github成功！！回显由于网络延迟，显示不出来或显示较缓慢属于正常现象'
-        )
-        this.$nextTick(() => {
-          // 以服务的方式调用的 Loading 需要异步关闭
-          loadingInstance.close()
-        })
+      try {
+        this.dialogVisible = true
+        this.timer = setInterval(async() => {
+          if (!this.dialogVisible) {
+            clearInterval(this.timer)
+            this.loadingInstance = Loading.service({
+              fullscreen: true,
+              text: '图片上传中...'
+            })
+            console.log(this.imageName, 'this.imageName')
+            var path = await github.uploader(content, this.imageName)
+            if (path) {
+              this.$message.success(
+                '上传github成功！！回显由于网络延迟，显示不出来或显示较缓慢属于正常现象'
+              )
+              this.$nextTick(() => {
+                // 以服务的方式调用的 Loading 需要异步关闭
+                this.loadingInstance.close()
+              })
+              // 此处只做示例
+              insertImage({
+                url: `https://github.com/zpfzpf123/images/blob/master/${path}?raw=true`,
+                desc: `${path}`,
+                width: 'auto',
+                height: 'auto'
+              })
+              this.imageName = ''
+            }
+          }
+        }, 1000)
+      } catch (e) {
+        this.$message.error(e.message)
+        this.loadingInstance.close()
+        this.imageName = ''
+        clearInterval(this.timer)
       }
-      // 此处只做示例
-      insertImage({
-        url: `https://github.com/zpfzpf123/images/blob/master/${files[0].name}?raw=true`,
-        desc: 'files.name',
-        width: 'auto',
-        height: 'auto'
-      })
     },
     init() {
       if (this.environment === 'development') {
@@ -412,6 +454,9 @@ export default {
       this.$nextTick(() => {
         this.articleDetails = val.content
       })
+    },
+    decideOnAName() {
+      this.dialogVisible = false
     },
     editInfo(index, val) {
       this.status = 1
