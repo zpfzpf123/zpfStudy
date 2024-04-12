@@ -583,6 +583,9 @@ export default {
   ::v-deep .v-md-editor__editor-wrapper {
     display: none;
   }
+  ::v-deep .scrollbar{
+    overflow-y: auto;
+  }
 }
 
 .top {

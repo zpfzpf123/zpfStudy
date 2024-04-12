@@ -62,7 +62,6 @@ export default {
      * 打开弹窗回调
      * */
     openDialog() {
-      console.log('你打开了弹窗')
       this.$emit('openDialog')
     },
     /**
@@ -70,7 +69,6 @@ export default {
      * */
     closeDialog() {
       this.$emit('closeDialog', false)
-      console.log('你关闭了弹窗')
     }
   }
 }
