@@ -453,6 +453,7 @@ export default {
       this.showDetail = true
       this.$nextTick(() => {
         this.articleDetails = val.content
+        document.querySelector('.v-md-icon-toc').click()
       })
     },
     decideOnAName() {
@@ -564,17 +565,12 @@ export default {
 }
 
 .detail {
-  overflow: auto;
 
-  ::v-deep .github-markdown-body {
-    overflow-y: auto;
-  }
-
-  ::v-deep .v-note-wrapper {
-    padding: 0;
-    margin: 0;
-    max-width: none;
-  }
+  //::v-deep .v-note-wrapper {
+  //  padding: 0;
+  //  margin: 0;
+  //  max-width: none;
+  //}
 
   ::v-deep .v-md-textarea-editor {
     display: none;
@@ -585,6 +581,12 @@ export default {
   }
   ::v-deep .scrollbar{
     overflow-y: auto;
+  }
+  ::v-deep .v-md-editor__main{
+    overflow-y: auto;
+  }
+  ::v-deep .scrollbar__thumb{
+    background: #42b983;
   }
 }
 

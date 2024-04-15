@@ -270,7 +270,7 @@
       "name": "石钞项目-天衡公司相关资料",
       "type": "公司",
       "recommendationIndex": 5,
-      "content": "# 1 gitlab地址\n```js\n网址：https://gitlab.office.iios.com.cn/\n账号：kx_pengfei.zhou\n密码：18582297328zpf\n```\n# 2 打包网址\n```js\n网址：http://jenkins.office.iios.com.cn/\n账号：kx_pengfei_zhou\n密码：eg5ju4ZQ5wuAQc2cpyUW\n```\n# 地听智造平台\n```js\n网址:https://www.dev.iios.com.cn/\n账号:zpf\n密码:eg5ju4ZQ5wuAQc2cpyUW\n```",
+      "content": "# 1 gitlab地址\n```js\n网址：https://gitlab.office.iios.com.cn/\n账号：kx_pengfei.zhou\n密码：18582297328zpf\n```\n# 2 打包网址\n```js\n网址：http://jenkins.office.iios.com.cn/\n账号：kx_pengfei_zhou\n密码：eg5ju4ZQ5wuAQc2cpyUW\n```\n# 3 地听智造平台\n```js\n网址:https://www.dev.iios.com.cn/\n账号:zpf\n密码:eg5ju4ZQ5wuAQc2cpyUW\n```",
       "id": 39
     }
   ],
