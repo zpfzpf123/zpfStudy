@@ -194,7 +194,6 @@ import Note from '@/api/note'
 import elDialogCom from '@/components/Dialog/el-dialog-com.vue'
 import db from '../../../static/db'
 import github from '@/request/github'
-import { Loading } from 'element-ui'
 
 export default {
   name: 'StudyNote',
@@ -204,7 +203,6 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      loadingInstance: null,
       timer: null,
       imageName: '',
       status: 0, // 0新增，1修改
@@ -318,20 +316,8 @@ export default {
         this.timer = setInterval(async() => {
           if (!this.dialogVisible) {
             clearInterval(this.timer)
-            this.loadingInstance = Loading.service({
-              fullscreen: true,
-              text: '图片上传中...'
-            })
-            console.log(this.imageName, 'this.imageName')
             var path = await github.uploader(content, this.imageName)
             if (path) {
-              this.$message.success(
-                '上传github成功！！回显由于网络延迟，显示不出来或显示较缓慢属于正常现象'
-              )
-              this.$nextTick(() => {
-                // 以服务的方式调用的 Loading 需要异步关闭
-                this.loadingInstance.close()
-              })
               // 此处只做示例
               insertImage({
                 url: `https://github.com/zpfzpf123/images/blob/master/${path}?raw=true`,
@@ -345,7 +331,6 @@ export default {
         }, 1000)
       } catch (e) {
         this.$message.error(e.message)
-        this.loadingInstance.close()
         this.imageName = ''
         clearInterval(this.timer)
       }
