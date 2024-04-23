@@ -23,14 +23,14 @@ const uploader = async(content, files) => {
     }
     await axios.put(imageUrl, body, { headers })
     // 如果上传成功，关闭加载提示并返回文件名
-    loadingInstance.close()
     Message.success('上传github成功！！回显由于网络延迟，显示不出来或显示较缓慢属于正常现象')
     return files + '.png'
   } catch (error) {
     // 如果上传失败，关闭加载提示并显示错误信息
-    loadingInstance.close()
     Message.error('上传失败: ' + error.toString())
     return null
+  } finally {
+    loadingInstance.close()
   }
 }
 export default {

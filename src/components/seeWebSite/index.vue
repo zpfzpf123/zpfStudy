@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="40" v-if="webSite.length" class="panel-group">
+  <el-row v-if="webSite.length" :gutter="40" class="panel-group">
     <!--    <el-card>-->
     <!--      <button class="pan-btn tiffany-btn" @click="addWebSite">-->
     <!--        新增网站-->
@@ -7,13 +7,13 @@
     <!--    </el-card>-->
     <el-card v-for="item of webSite" :key="item.url">
       <template v-slot:header>
-        <svg-icon :icon-class="item.svg" class-name="card-panel-icon"/>
+        <svg-icon :icon-class="item.svg" class-name="card-panel-icon" />
         <span class="header-name">{{ item.name }}</span>
       </template>
       <el-col v-for="list of item.urlList" :key="list.name" class="card-panel-col">
         <div class="card-panel" @click="goToWebsite(list.url)">
           <div class="card-panel-icon-wrapper icon-people">
-            <svg-icon :icon-class="list.svg" class-name="card-panel-icon"/>
+            <svg-icon :icon-class="list.svg" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
@@ -31,13 +31,13 @@
       <template v-slot:content>
         <el-form ref="webSite" :model="webSite" label-width="80px" :rules="rules">
           <el-form-item label="网站名称" prop="name">
-            <el-input v-model="webSite.name"/>
+            <el-input v-model="webSite.name" />
           </el-form-item>
           <el-form-item label="网站图标" prop="name">
-            <el-input v-model="webSite.svg"/>
+            <el-input v-model="webSite.svg" />
           </el-form-item>
           <el-form-item label="网站地址" prop="name">
-            <el-input v-model="webSite.url"/>
+            <el-input v-model="webSite.url" />
           </el-form-item>
         </el-form>
       </template>
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-
 import elDialogCom from '@/components/Dialog/el-dialog-com.vue'
 import WebSite from '@/api/webSite'
 import db from '../../../static/db'
@@ -116,6 +115,7 @@ export default {
     },
     submitForm() {
       this.$refs.webSite.validate(valid => {
+        // eslint-disable-next-line no-empty
         if (valid) {
 
         }
