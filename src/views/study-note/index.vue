@@ -17,7 +17,9 @@
             </el-select>
           </el-form-item>
           <el-form-item style="margin-left: 20px">
-            <button class="pan-btn green-btn" @click.prevent="reset">重置</button>
+            <button class="pan-btn green-btn" @click.prevent="reset">
+              重置
+            </button>
           </el-form-item>
           <el-form-item
             v-if="environment === 'development'"
@@ -239,9 +241,14 @@ export default {
         {
           label: '公司',
           value: '公司'
-        }, {
+        },
+        {
           label: 'git',
           value: 'git'
+        },
+        {
+          label: '其它',
+          value: '其它'
         }
       ],
       // 组名信息
@@ -337,11 +344,10 @@ export default {
     },
     init() {
       if (this.environment === 'development') {
-        Note.getNote()
-          .then((list) => {
-            this.noteList = []
-            this.noteList.push(...list)
-          })
+        Note.getNote().then((list) => {
+          this.noteList = []
+          this.noteList.push(...list)
+        })
       } else {
         this.noteList = []
         this.noteList.push(...db.note)
@@ -373,11 +379,10 @@ export default {
         )
       )
       if (this.environment === 'development') {
-        Note.getNote(condition)
-          .then((list) => {
-            this.noteList = []
-            this.noteList.push(...list)
-          })
+        Note.getNote(condition).then((list) => {
+          this.noteList = []
+          this.noteList.push(...list)
+        })
       } else {
         this.noteList = this.initList.filter((item) => {
           return (
@@ -550,7 +555,6 @@ export default {
 }
 
 .detail {
-
   //::v-deep .v-note-wrapper {
   //  padding: 0;
   //  margin: 0;
@@ -564,13 +568,13 @@ export default {
   ::v-deep .v-md-editor__editor-wrapper {
     display: none;
   }
-  ::v-deep .scrollbar{
+  ::v-deep .scrollbar {
     overflow-y: auto;
   }
-  ::v-deep .v-md-editor__main{
+  ::v-deep .v-md-editor__main {
     overflow-y: auto;
   }
-  ::v-deep .scrollbar__thumb{
+  ::v-deep .scrollbar__thumb {
     background: #42b983;
   }
 }
